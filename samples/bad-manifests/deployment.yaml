@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bad-app
+  namespace: default
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: bad-app
+  template:
+    metadata:
+      labels:
+        app: bad-app
+    spec:
+      containers:
+        - name: bad-app
+          image: nginx:latest        # bad: latest tag
+          securityContext:
+            privileged: true         # bad: privileged container
+          env:
+            - name: DB_PASSWORD
+              value: "supersecret123" # bad: hardcoded secret
+          # bad: no resource requests/limits
+          # bad: no readiness probe
+          # bad: no liveness probe
