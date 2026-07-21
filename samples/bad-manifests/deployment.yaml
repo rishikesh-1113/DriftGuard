@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bad-app
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: bad-app
+  template:
+    metadata:
+      labels:
+        app: bad-app
+    spec:
+      containers:
+        - name: bad-app
+          image: nginx:latest
+          env:
+            - name: DB_PASSWORD
+              value: "hunter2"
+          securityContext:
+            privileged: true
