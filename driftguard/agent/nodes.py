@@ -7,6 +7,7 @@ Nodes only read/write AgentState — no side effects outside of that.
 import json
 import logging
 import re
+import os
 from typing import Any
 from langchain_core.messages import HumanMessage, SystemMessage, ToolMessage
 from langchain_google_genai import ChatGoogleGenerativeAI
@@ -99,7 +100,8 @@ def build_tools(repo_name: str):
 def get_llm(repo_name: str = ""):
     from dotenv import load_dotenv
     load_dotenv()
-    llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", temperature=0)
+    model_name = os.getenv("GEMINI_MODEL", "gemini-2.5-flash-lite")
+    llm = ChatGoogleGenerativeAI(model=model_name, temperature=0)
     return llm.bind_tools(build_tools(repo_name))
 
 
