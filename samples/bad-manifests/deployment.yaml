@@ -1,23 +1,38 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: bad-app
-  namespace: default
+  name: payments-api
+  namespace: production
+  labels:
+    app: payments-api
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
-      app: bad-app
+      app: payments-api
   template:
     metadata:
       labels:
-        app: bad-app
+        app: payments-api
     spec:
       containers:
-        - name: bad-app
-          image: nginx:latest
+        - name: payments-api
+          image: myregistry/payments-api:latest
+          ports:
+            - containerPort: 8080
           env:
             - name: DB_PASSWORD
-              value: "hunter2"
+              value: "Sup3rSecret!2024"
+            - name: STRIPE_API_KEY
+              value: "sk_live_51H8xJ2example"
+            - name: LOG_LEVEL
+              value: "info"
           securityContext:
             privileged: true
+          volumeMounts:
+            - name: shared-logs
+              mountPath: /var/log/app
+      volumes:
+        - name: shared-logs
+          hostPath:
+            path: /var/log/payments-api
