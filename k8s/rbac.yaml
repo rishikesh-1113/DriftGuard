@@ -1,0 +1,39 @@
+---
+# ServiceAccount for DriftGuard
+# Gives DriftGuard its own identity in the cluster — not the default service account
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: driftguard
+  namespace: driftguard
+---
+# ClusterRole — read-only access to workload resources only
+# get/list/watch — never create, update, delete, patch
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: driftguard-readonly
+rules:
+  - apiGroups: ["apps"]
+    resources: ["deployments", "daemonsets", "statefulsets", "replicasets"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["pods", "configmaps", "namespaces"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["batch"]
+    resources: ["jobs", "cronjobs"]
+    verbs: ["get", "list", "watch"]
+---
+# ClusterRoleBinding — bind the role to the DriftGuard service account
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: driftguard-readonly-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: driftguard-readonly
+subjects:
+  - kind: ServiceAccount
+    name: driftguard
+    namespace: driftguard
