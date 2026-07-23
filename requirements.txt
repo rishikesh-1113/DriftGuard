@@ -1,0 +1,11 @@
+pyyaml==6.0.1
+pytest==8.3.5
+python-dotenv==1.2.2
+langgraph
+langchain-google-genai
+fastapi
+uvicorn
+PyGithub
+python-multipart
+qdrant-client==1.18.0
+google-genai
