@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: payments-api
-          image: myregistry/payments-api:latest
+          image: myregistry/payments-api:v3
           ports:
             - containerPort: 8080
           env:
@@ -35,4 +35,4 @@ spec:
       volumes:
         - name: shared-logs
           hostPath:
-            path: /var/log/payments-api# manual e2e test trigger
+            path: /var/log/payments-api
