@@ -170,6 +170,15 @@ async def github_webhook(request: Request, background_tasks: BackgroundTasks):
             repo_name = payload["repository"]["full_name"]
             pr_number = payload["issue"]["number"]
             commenter = payload["comment"]["user"]["login"]
+            association = payload["comment"].get("author_association", "NONE")
+
+            if association not in ("OWNER", "MEMBER", "COLLABORATOR"):
+                token = get_installation_token(installation_id)
+                post_pr_comment(repo_name, pr_number,
+                    "@" + commenter + " you dont have permission to approve DriftGuard reviews on this repo.",
+                    token=token)
+                return {"status": "rejected", "reason": "insufficient permission"}
+
             background_tasks.add_task(handle_approval, repo_name, pr_number, commenter, installation_id)
             return {"status": "approval received", "pr": pr_number}
 

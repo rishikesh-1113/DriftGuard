@@ -62,6 +62,15 @@ def main():
         print("GITHUB_REPO and PR_NUMBER must be set.")
         return
 
+    association = os.getenv("COMMENTER_ASSOCIATION", "NONE")
+    if association not in ("OWNER", "MEMBER", "COLLABORATOR"):
+        print("Rejected /approve from @" + commenter + " (association: " + association + ") - not authorized.")
+        post_pr_comment(
+            repo_name, pr_number,
+            "@" + commenter + " you dont have permission to approve DriftGuard reviews on this repo.",
+        )
+        return
+
     comments = list_pr_comments(repo_name, pr_number)
 
     if _already_approved(comments):
