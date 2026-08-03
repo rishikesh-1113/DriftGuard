@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: bad-app
-          image: nginx:latest
+          image: nginx:v2
           env:
             - name: DB_PASSWORD
               value: "hunter2"
