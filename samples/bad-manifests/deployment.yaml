@@ -35,4 +35,4 @@ spec:
       volumes:
         - name: shared-logs
           hostPath:
-            path: /var/log/payments-api
+            path: /var/log/payments-api# manual e2e test trigger

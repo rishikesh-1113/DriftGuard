@@ -68,7 +68,7 @@ def test_recall_returns_past_findings():
     mock_client.get_collections.return_value.collections = []
     mock_client.query_points.return_value = mock_response
 
-with patch("driftguard.memory.recall.get_qdrant_client", return_value=mock_client), \
+    with patch("driftguard.memory.recall.get_qdrant_client", return_value=mock_client), \
          patch("driftguard.memory.recall.ensure_collection_exists"), \
          patch("driftguard.memory.recall.get_embedding", return_value=[0.1] * 768):
 

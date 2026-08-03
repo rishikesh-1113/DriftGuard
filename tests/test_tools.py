@@ -23,7 +23,7 @@ DOCKERFILE_PATH = os.path.join(SAMPLES_DIR, "Dockerfile")
 def test_get_full_manifest_found():
     result = get_full_manifest(DEPLOYMENT_PATH)
     assert result.found is True
-    assert "bad-app" in result.content
+    assert "payments-api" in result.content
     assert result.error is None
 
 
@@ -42,8 +42,8 @@ def test_get_full_manifest_dockerfile():
 # --- get_related_resources ---
 
 def test_get_related_resources_finds_match():
-    result = get_related_resources(name="bad-app", namespace="default", search_dir=SAMPLES_DIR)
-    assert result.query_name == "bad-app"
+    result = get_related_resources(name="payments-api", namespace="production", search_dir=SAMPLES_DIR)
+    assert result.query_name == "payments-api"
     assert len(result.matches) >= 1
 
 
