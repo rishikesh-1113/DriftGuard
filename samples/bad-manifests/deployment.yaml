@@ -36,3 +36,4 @@ spec:
         - name: shared-logs
           hostPath:
             path: /var/log/payments-api
+      #retest
