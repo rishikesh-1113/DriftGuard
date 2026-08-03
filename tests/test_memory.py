@@ -68,10 +68,9 @@ def test_recall_returns_past_findings():
     mock_client.get_collections.return_value.collections = []
     mock_client.query_points.return_value = mock_response
 
-    with patch("driftguard.memory.store.QdrantClient", return_value=mock_client), \
-         patch("driftguard.memory.store.genai") as mock_genai:
-
-        mock_genai.embed_content.return_value = {"embedding": [0.1] * 3072}
+with patch("driftguard.memory.recall.get_qdrant_client", return_value=mock_client), \
+         patch("driftguard.memory.recall.ensure_collection_exists"), \
+         patch("driftguard.memory.recall.get_embedding", return_value=[0.1] * 768):
 
         results = recall_similar_findings(
             rule="LATEST_TAG",

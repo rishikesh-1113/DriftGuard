@@ -19,7 +19,7 @@ def test_collect_reads_file_content():
         "file_content": "",
     })
     assert len(state["file_content"]) > 0
-    assert "bad-app" in state["file_content"]
+    assert "payments-api" in state["file_content"]
 
 
 def test_collect_sets_defaults():

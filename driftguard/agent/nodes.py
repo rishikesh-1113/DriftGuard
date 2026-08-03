@@ -100,7 +100,7 @@ def build_tools(repo_name: str):
 def get_llm(repo_name: str = ""):
     from dotenv import load_dotenv
     load_dotenv()
-    model_name = os.getenv("GEMINI_MODEL", "gemini-2.5-flash-lite")
+    model_name = os.getenv("GEMINI_MODEL", "gemini-3.1-flash-lite")
     llm = ChatGoogleGenerativeAI(model=model_name, temperature=0)
     return llm.bind_tools(build_tools(repo_name))
 
