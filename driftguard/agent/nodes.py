@@ -172,6 +172,7 @@ def recall(state: AgentState) -> AgentState:
         repo_name=state.get("repo_name", ""),
     )
     state["past_incidents"] = past
+    print("[recall] found " + str(len(past)) + " past incident(s) for " + file_path + " in " + str(state.get("repo_name", "")))
     return state
 
 
